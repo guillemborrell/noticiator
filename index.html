@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h1 class="text-center">Noticiator 2000</h1>
+    <form action="/" method="get">
+      <div class="form-group">
+	<input name="query" type="text" class="form-control" id="text"
+	       placeholder="Buscar en las noticias" required>
+      </div>
+      <button type="submit" class="btn btn-default">Buscar</button>
+      <a href="/new">Añadir noticia...</a>
+    </form>
+    <br/>
+  </div>
+</div>
+<div class="row">
+  <div class="container">
+    <div class="col-md-10 col-md-offset-1">
+      {% if documents %}
+      <p>He encontrado {{ matches }} documento(s). Mostrando de {{ count-20+1 }}
+	a {{ count-20+numdocuments }}.</p>
+      {% for document in documents %}
+      <div class="container">
+	<p>
+	  <ul>
+	    <li><a href="/document?doc_id={{ document.doc_id }}" >{{
+		document.fields[0].value }}</a>. 
+	      <a href="/edit?doc_id={{ document.doc_id }}">Editar...</a></li>
+	    <li>{{ document.fields[2].value }}</li>
+	    <li>{{ document.fields[1].value.strftime("%d/%m/%Y") }}</li>
+	  </ul>
+	</p>
+      </div>
+      {% endfor %}
+      {% if matches > numdocuments+count-20 %}
+      <p><a href="/?query={{ query }}&count={{ count }}">Más...</a></p>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock content%}
